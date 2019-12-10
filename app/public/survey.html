@@ -234,6 +234,9 @@
 
                 var currentURL = window.location.origin;
                 $.post(currentURL + "/api/friends", newSubmission, function (data) {
+
+                    $("#matchName").text(data.name);
+                    $("#matchImg").attr("src", data.photo);
                     $("resultsMatch").modal(toggle);
                     alert("Your Submission Was Accepted!")
                 });
