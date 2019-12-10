@@ -25,6 +25,8 @@ app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
 // parse an HTML body into a string
 app.use(bodyParser.text({ type: 'text/html' }))
 
+require("./app/routing/htmlRoutes.js")(app);
+
 // LISTENER
 // The below code effectively "starts" our server
 app.listen(PORT, function () {
