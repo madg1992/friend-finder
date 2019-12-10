@@ -166,6 +166,30 @@
             </div>
         </footer>
 
+        <!-- modal- to display friend match -->
+        <div id="resultsMatch" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">We've found a match!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 id="matchName"></h2>
+                        <img id="matchImg"
+                            src="https://images.unsplash.com/photo-1524698604136-5a02fb1f7ec9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+                            alt="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -208,11 +232,17 @@
                     ]
                 };
 
-                var currenURL = window.location.origin;
-                $.post(currenURL + "/api/friends", newSubmission, function (data) {
+                var currentURL = window.location.origin;
+                $.post(currentURL + "/api/friends", newSubmission, function (data) {
+                    $("resultsMatch").modal(toggle);
                     alert("Your Submission Was Accepted!")
                 });
             }
+            else {
+                alert("Looks like you totally missed a question. Make sure you answer all before submitting!");
+            }
+
+            return false;
         });
 
     </script>
