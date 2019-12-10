@@ -43,8 +43,8 @@
 
         <h3><strong>Question 1</strong></h3>
         <h4>I like to go to the park.</h4>
-        <select data-placeholder="" class="chosen-select" id="q1">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q1">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -54,8 +54,8 @@
 
         <h3><strong>Question 2</strong></h3>
         <h4>Belly rubs are my favorite.</h4>
-        <select data-placeholder="" class="chosen-select" id="q2">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q2">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -65,8 +65,8 @@
 
         <h3><strong>Question 3</strong></h3>
         <h4>I hate taking a bath.</h4>
-        <select data-placeholder="" class="chosen-select" id="q3">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q3">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -76,8 +76,8 @@
 
         <h3><strong>Question 4</strong></h3>
         <h4>I am very outgoing and energetic.</h4>
-        <select data-placeholder="" class="chosen-select" id="q4">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q4">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -87,8 +87,8 @@
 
         <h3><strong>Question 5</strong></h3>
         <h4>I am calm and reserved.</h4>
-        <select data-placeholder="" class="chosen-select" id="q5">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q5">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -98,8 +98,8 @@
 
         <h3><strong>Question 6</strong></h3>
         <h4>I prefer to stay at home than go out.</h4>
-        <select data-placeholder="" class="chosen-select" id="q6">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q6">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -109,8 +109,8 @@
 
         <h3><strong>Question 7</strong></h3>
         <h4>I am afraid of thunder and lightning.</h4>
-        <select data-placeholder="" class="chosen-select" id="q7">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q7">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -120,8 +120,8 @@
 
         <h3><strong>Question 8</strong></h3>
         <h4>I get excited for treats.</h4>
-        <select data-placeholder="" class="chosen-select" id="q8">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q8">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -131,8 +131,8 @@
 
         <h3><strong>Question 9</strong></h3>
         <h4>I hate going to the vet.</h4>
-        <select data-placeholder="" class="chosen-select" id="q9">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q9">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -142,8 +142,8 @@
 
         <h3><strong>Question 10</strong></h3>
         <h4>I like to chew my owner's shoes.</h4>
-        <select data-placeholder="" class="chosen-select" id="q10">
-            <option value=""></option>
+        <select data-placeholder="" class="select-choice" id="q10">
+            <option value="choose">Choose an option</option>
             <option value="1">1 "Strongly Disagree"</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -168,6 +168,68 @@
 
     </div>
 
+    <script>
+        // when submit button is clicked, capture values from the form
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+
+            // Validate the form to make sure all questions were answered
+            function validateForm() {
+                var isValid = true;
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+
+                $(".select-choice").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+
+            if (validateForm()) {
+                var newSubmission = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        $("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val()
+                    ]
+                };
+                // make a post request 
+                $.post("/api/friends", newSubmission, function (data) {
+
+                    // clear values on submit
+                    $("#name").val("");
+                    $("#photo").val("");
+                    $("#q1").val("choose");
+                    $("#q2").val("choose");
+                    $("#q3").val("choose");
+                    $("#q4").val("choose");
+                    $("#q5").val("choose");
+                    $("#q6").val("choose");
+                    $("#q7").val("choose");
+                    $("#q8").val("choose");
+                    $("#q9").val("choose");
+                    $("#q10").val("choose");
+                });
+            }
+            else {
+                alert("Looks like you totally missed a question. Make sure you answer all before submitting.");
+            }
+        });
+    </script>
 
 </body>
 
