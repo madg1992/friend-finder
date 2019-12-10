@@ -207,28 +207,14 @@
                         $("#q10").val()
                     ]
                 };
-                // make a post request 
-                $.post("/api/friends", newSubmission, function (data) {
 
-                    // clear values on submit
-                    $("#name").val("");
-                    $("#photo").val("");
-                    $("#q1").val("choose");
-                    $("#q2").val("choose");
-                    $("#q3").val("choose");
-                    $("#q4").val("choose");
-                    $("#q5").val("choose");
-                    $("#q6").val("choose");
-                    $("#q7").val("choose");
-                    $("#q8").val("choose");
-                    $("#q9").val("choose");
-                    $("#q10").val("choose");
+                var currenURL = window.location.origin;
+                $.post(currenURL + "/api/friends", newSubmission, function (data) {
+                    alert("Your Submission Was Accepted!")
                 });
             }
-            else {
-                alert("Looks like you totally missed a question. Make sure you answer all before submitting.");
-            }
         });
+
     </script>
 
 </body>
