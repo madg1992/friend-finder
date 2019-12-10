@@ -1,16 +1,32 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+var express = require('express')
+var bodyParser = require('body-parser')
 
-const port = process.env.PORT || 3000;
+var app = express()
 
-const app = express();
+// Sets an initial port. We"ll use this later in our listener
+var PORT = process.env.PORT || 8080;
 
-app.use(bodyParser.json());
-app.use(express.static('./app/public'));
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-require('./app/routing/htmlRoutes')(app)
-// require('./app/routing/apiRouting')(app)
+// create application/json parser
+var jsonParser = bodyParser.json()
 
-app.listen(port, function () {
-    `listening on ${port}, have fun!`
-})
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+// parse various different custom JSON types as JSON
+app.use(bodyParser.json({ type: 'application/*+json' }))
+
+// parse some custom thing into a Buffer
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
+
+// parse an HTML body into a string
+app.use(bodyParser.text({ type: 'text/html' }))
+
+// LISTENER
+// The below code effectively "starts" our server
+app.listen(PORT, function () {
+    console.log("App listening on PORT: " + PORT);
+});
